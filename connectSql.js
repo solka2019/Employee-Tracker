@@ -1,3 +1,5 @@
+// Connecting with Server
+
 const mysql = require("mysql");
 const connectMySql = mysql.createConnection({
     host: "localhost",
@@ -15,6 +17,8 @@ connectMySql.connect(function (err) {
 });
 
 module.exports = connectMySql;
+
+// Initialize Server function -colocar dentro da fc
 
 const readline = require("linebyline");
 
