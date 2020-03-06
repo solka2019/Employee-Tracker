@@ -2,11 +2,12 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const readline = require("linebyline");
 const consoleTable = require("console.table");
-const connection = require("./connection");
+// const connection = require("./connection");
 let managersArray;
 let employeeArray;
 let dArray;
 
+// Connecting with Server
 const connectMySql = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -15,13 +16,16 @@ const connectMySql = mysql.createConnection({
     user: "root",
     password: "password"
 });
+connectMySql.connect();
+// ADDED ON TOP TRYING TO FIX ERROR "CONNECTION IS NOT DEFINED"
 
 connectMySql.connect(function (err) {
     if (err) throw err;
-    console.log("Error found connecting to server " + connectMySql.host);
+    console.log("connected!!");
+    // console.log("Error found connecting to server " + connectMySql.host);
     // space in string after server is because of concatenation with the host string
 });
-
+// module.exports = connectMySql;
 start();
 
 // Initalize - this is how we use inquirer: .prompt... .then... (page inquirer)
@@ -120,22 +124,24 @@ function initializeServer() {
     start();
 }
 
-//Displays all employees
+//Displays all employees, If you want to return all users, no matter if they have a favorite product or not, use the LEFT JOIN statement:
 function viewEmployees() {
     const queryString = `SELECT employee_table.id, employee_table.first_name, employee_table.last_name, role_table.title, department_table.dept_name AS department, role_table.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee_table LEFT JOIN role_table ON employee_table.role_id = role_table.id LEFT JOIN department_table on role_table.department_id = department_table.id LEFT JOIN employee_table manager ON manager.id = employee_table.manager_id ORDER BY employee_table.id;`;
-    connection.query(queryString, function(err, res) {
+    connection.query(queryString, function(err, choice) {
         if (err) throw err;
-        console.table(res);
+        console.table(choice);
+        
         start();
+        
     });
 }
                                                                                                       
 // Displays all employees by their department.
 function viewEmpByDept() {
     const queryString = `SELECT employee_table.id, employee_table.first_name, employee_table.last_name, role_table.title, department_table.dept_name AS department FROM employee_table LEFT JOIN role_table ON employee_table.role_id = role_table.id LEFT JOIN department_table ON department_table.id = role_table.department_id ORDER BY role_table.title`;
-    connection.query(queryString, function(err, res) {
+    connection.query(queryString, function(err, choice) {
         if (err) throw err;
-        console.table(res);
+        console.table();
         start();
     });
 }
@@ -143,9 +149,9 @@ function viewEmpByDept() {
 //View employees listed in alpahbetical order of their manager.
 function viewEmpByMgr() {
     const queryString = `SELECT employee_table.id, employee_table.first_name, employee_table.last_name, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee_table LEFT JOIN employee_table manager ON manager.id = employee_table.manager_id ORDER BY manager;`;
-    connection.query(queryString, function(err, res) {
+    connection.query(queryString, function(err, choice) {
         if (err) throw err;
-        console.table(res);
+        console.table(choice);
         start();
     });
 }
@@ -153,9 +159,9 @@ function viewEmpByMgr() {
 // Lists the role_table
 function viewRoles() {
     const queryString = "SELECT * FROM role_table;";
-    connection.query(queryString, function(err, res) {
+    connection.query(queryString, function(err, choice) {
         if (err) throw err;
-        console.table(res);
+        console.table(choice);
         start();
     });
 }
@@ -165,7 +171,7 @@ function viewAllDept() {
     const queryString = "SELECT * FROM department_table;";
     connection.query(queryString, function(err, res) {
         if (err) throw err;
-        console.table(res);
+        console.table(choice);
         start();
     });
 }
@@ -203,10 +209,10 @@ function addEmployee() {
                         ]
                     }
                 ])
-                .then(res => {
-                    let roleNum = parseInt(res.role_id.charAt(0));
-                    let first_name = res.fn;
-                    let last_name = res.ln;
+                .then(choice => {
+                    let roleNum = parseInt(choice.role_id.charAt(0));
+                    let first_name = choice.fn;
+                    let last_name = choice.ln;
                     let ifManager = null;
                     if (
                         roleNum === 3 ||
@@ -223,13 +229,13 @@ function addEmployee() {
                                     choices: managersArray
                                 }
                             ])
-                            .then(res => {
-                                ifManager = parseInt(res.manager.charAt(0));
+                            .then(choice => {
+                                ifManager = parseInt(choice.manager.charAt(0));
                                 const queryString = `INSERT INTO employee_table (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);`;
                                 connection.query(
                                     queryString,
                                     [first_name, last_name, roleNum, ifManager],
-                                    function(err, res) {
+                                    function(err, choice) {
                                         if (err) throw err;
                                         console.log("Employee Added!");
                                         start();
@@ -237,14 +243,14 @@ function addEmployee() {
                                 );
                             });
                     } else {
-                        // roleNum = parseInt(res.role_id.charAt(0));
+                        // roleNum = parseInt(choice.role_id.charAt(0));
                         console.log(roleNum);
                         const queryString = `INSERT INTO employee_table (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);`;
-                        console.log(res);
+                        console.log(choice);
                         connection.query(
                             queryString,
                             [first_name, last_name, roleNum, ifManager],
-                            function(err, res) {
+                            function(err, choice) {
                                 if (err) throw err;
                                 console.log("Employee Added!");
                                 start();
@@ -288,7 +294,7 @@ function addRole() {
                     connection.query(
                         queryString,
                         [data.roleName, data.salary, deptNum],
-                        function(err, res) {
+                        function(err, choice) {
                             if (err) throw err;
                             console.log("Role Added!");
                             start();
@@ -311,7 +317,7 @@ function addDept() {
         ])
         .then(data => {
             const queryString = `INSERT INTO department_table (dept_name) values (?);`;
-            connection.query(queryString, [data.deptName], function(err, res) {
+            connection.query(queryString, [data.deptName], function(err, choice) {
                 if (err) throw err;
                 console.log("Department added!");
                 start();
@@ -352,7 +358,7 @@ function updateRole() {
                     connection.query(
                         queryString,
                         [roleNum, data.employee],
-                        function(err, res) {
+                        function(err, choice) {
                             if (err) throw err;
                             console.table("Role Updated!");
                             start();
