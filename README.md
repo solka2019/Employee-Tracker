@@ -16,3 +16,6 @@ MySql
   
 ## Github
 https://solka2019.github.io/Employee-Tracker/.
+
+## Snapshot
+![Image description](./assets/All-Employees-Capture.PNG)

@@ -21,7 +21,8 @@ module.exports = connectMySql;
 // Initialize Server function -colocar dentro da fc
 
 const readline = require("linebyline");
-
+//  .sql file - to know which ones are
+// run a program = execute 
 const runSqlFile = function (fileName) {
     // create the obj (readline) to be able to use the library linebyline
     const rl = readline(fileName);
