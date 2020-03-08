@@ -2,7 +2,6 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const readline = require("linebyline");
 const consoleTable = require("console.table");
-// const connection = require("./connection");
 let managersArray;
 let employeeArray;
 let dArray;
@@ -18,8 +17,6 @@ const connectMySql = mysql.createConnection({
 });
 
 // connectMySql.connect();
-// ADDED ON TOP TRYING TO FIX ERROR "CONNECTION IS NOT DEFINED" ---but it doesnt let me test anymore
-
 // Just connect with the server, so you can send commands later!
 async function connection()
 {
@@ -40,7 +37,7 @@ async function app()
 app();
 
 // Functions to perform specific SQL queries that I'll need to use. Suggestion is to have a 
-// constructor function or a class to organize these queries? Example below - constructor
+// constructor function or a class to organize these queries- Example below - constructor
 // function Person(first, last, age, eyecolor) {
 //   this.firstName = first;
 //   this.lastName = last;
