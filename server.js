@@ -150,7 +150,7 @@ function viewEmpByDept() {
     const queryString = `SELECT employee_table.id, employee_table.first_name, employee_table.last_name, role_table.title, department_table.dept_name AS department FROM employee_db.employee_table LEFT JOIN employee_db.role_table ON employee_table.role_id = role_table.id LEFT JOIN employee_db.department_table ON department_table.id = role_table.department_id ORDER BY role_table.title`;
     connectMySql.query(queryString, function(err, choice) {
         if (err) throw err;
-        console.table();
+        console.table(choice);
         start();
     });
 }

@@ -26,6 +26,10 @@ https://solka2019.github.io/Employee-Tracker/.
 
 ![Image description](./assets/adding-Capture.PNG)
 
+![Image description](./assets/view-by-department-Capture.PNG)
+
+
+
 
 ### Question:
 
