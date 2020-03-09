@@ -14,9 +14,6 @@ Console.table
 Linebyline   
 MySql   
   
-## Github
-https://solka2019.github.io/Employee-Tracker/.
-
 ## Screenshot
 ![Image description](./assets/All-Employees-Capture.PNG)
 
@@ -28,9 +25,7 @@ https://solka2019.github.io/Employee-Tracker/.
 
 ![Image description](./assets/view-by-department-Capture.PNG)
 
+## Github
+https://solka2019.github.io/Employee-Tracker/.
 
 
-
-### Question:
-
-- "View all employees by department" is not showing. Why?
