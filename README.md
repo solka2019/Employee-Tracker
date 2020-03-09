@@ -1,6 +1,6 @@
 # Employee-Tracker
 Homework 12
-In this app, the user can add and view employees, departments, and roles. It is also possible to update employee roles. 
+In this app, the user can add and view employees -including who is the manager, departments, and roles. It is also possible to update employee's roles by choosing their names first. 
 
 ## User Story
 As a business owner
@@ -17,7 +17,13 @@ MySql
 ## Github
 https://solka2019.github.io/Employee-Tracker/.
 
-## Snapshot
+## Screenshot
 ![Image description](./assets/All-Employees-Capture.PNG)
 
 ![Image description](./assets/Employee-added.PNG)
+
+![Image description](./assets/commands-Capture.PNG)
+
+### Question:
+
+- "View all employees by department" is not showing. Why?
